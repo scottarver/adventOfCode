@@ -3,30 +3,30 @@ type InputsType = 'A' | 'B' | 'C' | 'X' | 'Y' | 'Z';
 // const inputs = ['A', 'B', 'C', 'X', 'Y', 'Z'] as InputsType[];
 
 const scoresMap: Record<string, number> = {
-    rock     : 1,
-    paper    : 2,
-    scissors : 3,
+    rock: 1,
+    paper: 2,
+    scissors: 3,
 };
 
 const values: Record<InputsType, string> = {
-    A : 'rock',
-    B : 'paper',
-    C : 'scissors',
-    X : 'rock',
-    Y : 'paper',
-    Z : 'scissors',
+    A: 'rock',
+    B: 'paper',
+    C: 'scissors',
+    X: 'rock',
+    Y: 'paper',
+    Z: 'scissors',
 };
 const beats: Record<string, string> = {
-    rock     : 'scissors',
-    paper    : 'rock',
-    scissors : 'paper',
+    rock: 'scissors',
+    paper: 'rock',
+    scissors: 'paper',
 };
 const findToBeat = (play: string) => (Object.entries(beats).find(([, value]) => value === play) ?? ['?', '?'])[0];
 
 const resultScore = {
-    win  : 6,
-    tie  : 3,
-    lose : 0,
+    win: 6,
+    tie: 3,
+    lose: 0,
 };
 
 const puzzleInput = `B Y
@@ -2569,9 +2569,9 @@ function advent2(input: string): number {
 }
 
 const resultMap = {
-    X : 'lose',
-    Y : 'tie',
-    Z : 'win',
+    X: 'lose',
+    Y: 'tie',
+    Z: 'win',
 };
 
 function advent2b(input: string): number {

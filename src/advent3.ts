@@ -1,7 +1,4 @@
-import {
-    chunk,
-    intersection,
-} from 'lodash';
+import { chunk, intersection } from 'lodash';
 
 const testInput1 = `vJrwpWtwJgWrhcsFMMfFFhFp
 jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
@@ -13,8 +10,8 @@ CrZsJsPPZsGzwwsLwLmpwMDw`;
 const getPriority = (input: string): number => {
     // char to decimal
     const value: number = input.codePointAt(0) as number;
-    const isLowerCase: boolean = (value >= ('a'.codePointAt(0) as number)) && (value <= ('z'.codePointAt(0) as number));
-    const base: number = isLowerCase ? 'a'.codePointAt(0) as number : ('A'.codePointAt(0) as number);
+    const isLowerCase: boolean = value >= ('a'.codePointAt(0) as number) && value <= ('z'.codePointAt(0) as number);
+    const base: number = isLowerCase ? ('a'.codePointAt(0) as number) : ('A'.codePointAt(0) as number);
     // console.log({input, value, isLowerCase, base });
     return value - base + 1 + (isLowerCase ? 0 : 26);
 };
@@ -40,7 +37,7 @@ const advent3a = (input: string): number => {
 
         const common = commonBetween[0];
 
-        console.log(common, getPriority(common))
+        console.log(common, getPriority(common));
         return getPriority(common);
     });
     console.log(linesPri);
@@ -350,13 +347,11 @@ pDBrBHpHhlldphHBHhJVFSLnWWFJttCtQSttSS
 hfHrpphHBppfTvmzgMmbLbgf`;
 // console.log(advent3a(input1));
 
-
 const advent3b = (input: string): number => {
     const lines = input.split('\n');
     const chunked = chunk(lines, 3);
     console.log(chunked);
-    const linesPri = chunked.map(([l1,l2,l3]) => {
-
+    const linesPri = chunked.map(([l1, l2, l3]) => {
         // const cls:string[][] = [l1,l2,l3].map((line):string[] => {
         //     const lineLength = line.length;
         //     // first half of the line
@@ -373,14 +368,12 @@ const advent3b = (input: string): number => {
         //     return commonBetween;
         // });
 
-        const common = intersection(...[l1,l2,l3].map(x => x.split('')));
+        const common = intersection(...[l1, l2, l3].map((x) => x.split('')));
         const commonLetter = common[0];
         const priority = getPriority(commonLetter);
 
         console.log({ common, commonLetter, priority });
-        return priority
-
-
+        return priority;
     });
     console.log(linesPri);
     return linesPri.reduce((a, b) => a + b, 0);

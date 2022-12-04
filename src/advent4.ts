@@ -1,50 +1,38 @@
-function advent4a(input:string):number{
-
-
-    const lines = input.split("\n");
-    const results = lines.map(line => {
-        const [elf1, elf2] = line.split(",");
-        const [elf1Start, elf1End] = elf1.split("-").map(x => parseInt(x,10));
-        const [elf2Start, elf2End] = elf2.split("-").map(x => parseInt(x,10));
+function advent4a(input: string): number {
+    const lines = input.split('\n');
+    const results = lines.map((line) => {
+        const [elf1, elf2] = line.split(',');
+        const [elf1Start, elf1End] = elf1.split('-').map((x) => parseInt(x, 10));
+        const [elf2Start, elf2End] = elf2.split('-').map((x) => parseInt(x, 10));
 
         // return true if one range fully contains the other
 
         const elf1ContainsElf2 = elf1Start <= elf2Start && elf1End >= elf2End;
         const elf2ContainsElf1 = elf2Start <= elf1Start && elf2End >= elf1End;
 
-        if(elf1ContainsElf2 || elf2ContainsElf1){
+        if (elf1ContainsElf2 || elf2ContainsElf1) {
             return true;
         }
 
         return false;
-
-
-
-
-
     });
 
     console.log(results);
 
-    const count = results.filter(x => x).length;
+    const count = results.filter((x) => x).length;
 
     console.log(count);
     return count;
-
-
-
 }
 
-function advent4b(input:string):number{
+function advent4b(input: string): number {
+    const lines = input.split('\n');
+    const results = lines.map((line) => {
+        const [elf1, elf2] = line.split(',');
+        const [elf1Start, elf1End] = elf1.split('-').map((x) => parseInt(x, 10));
+        const [elf2Start, elf2End] = elf2.split('-').map((x) => parseInt(x, 10));
 
-
-    const lines = input.split("\n");
-    const results = lines.map(line => {
-        const [elf1, elf2] = line.split(",");
-        const [elf1Start, elf1End] = elf1.split("-").map(x => parseInt(x,10));
-        const [elf2Start, elf2End] = elf2.split("-").map(x => parseInt(x,10));
-
-       // return true if there is any overlap at all
+        // return true if there is any overlap at all
 
         const elf1ContainsElf2 = elf1Start <= elf2Start && elf1End >= elf2End;
         const elf2ContainsElf1 = elf2Start <= elf1Start && elf2End >= elf1End;
@@ -52,23 +40,19 @@ function advent4b(input:string):number{
         const elf1OverlapsElf2 = elf1Start <= elf2Start && elf1End >= elf2Start;
         const elf2OverlapsElf1 = elf2Start <= elf1Start && elf2End >= elf1Start;
 
-        if(elf1ContainsElf2 || elf2ContainsElf1 || elf1OverlapsElf2 || elf2OverlapsElf1){
+        if (elf1ContainsElf2 || elf2ContainsElf1 || elf1OverlapsElf2 || elf2OverlapsElf1) {
             return true;
         }
 
         return false;
-
     });
 
     console.log(results);
 
-    const count = results.filter(x => x).length;
+    const count = results.filter((x) => x).length;
 
     console.log(count);
     return count;
-
-
-
 }
 
 const test1Input = `2-4,6-8
@@ -79,7 +63,6 @@ const test1Input = `2-4,6-8
 2-6,4-8`;
 
 // console.log(advent4(test1Input));
-
 
 const input1 = `37-87,36-87
 3-98,3-84
@@ -1080,7 +1063,7 @@ const input1 = `37-87,36-87
 36-36,35-55
 55-90,89-89
 9-51,1-51
-3-98,1-2`
+3-98,1-2`;
 
 // console.log(advent4a(input1));
 
