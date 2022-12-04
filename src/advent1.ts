@@ -2253,7 +2253,7 @@ function advent1(input: string): number {
 function advent2(input: string): number {
     const byElf = parseInput(input);
     const sorted = byElf.sort((a, b) => b - a);
-    const [a,b,c,...rest] = sorted;
+    const [a, b, c, ...rest] = sorted;
     return a + b + c;
 }
 
@@ -2281,5 +2281,3 @@ console.log(advent1(input));
 console.log(advent2(input));
 assert(advent1(input) === 70374, 'advent1 failed');
 // assert(advent2(input) === 45000, 'advent2 failed');
-
-
