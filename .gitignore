@@ -193,3 +193,20 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # End of https://mrkandreev.name/snippets/gitignore-generator/#Node,WebStorm
+
+# SonarLint plugin
+.idea/sonarlint/
+
+
+
+### WebStorm+iml Patch ###
+# Reason: https://github.com/joeblau/gitignore.io/issues/186#issuecomment-249601023
+
+*.iml
+modules.xml
+.idea/misc.xml
+*.ipr
+
+.idea/*
+
+# End of https://www.toptal.com/developers/gitignore/api/webstorm+iml
