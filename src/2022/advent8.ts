@@ -8,11 +8,11 @@ console.log('\n\n\n\n\n\n\n');
 const makeArray = (start: number, end: number): number[] => {
     const result = [];
 
-    if(start < end){
+    if (start < end) {
         for (let i = start; i <= end; i++) {
             result.push(i);
         }
-    }else{
+    } else {
         for (let i = start; i >= end; i--) {
             result.push(i);
         }
@@ -22,25 +22,24 @@ const makeArray = (start: number, end: number): number[] => {
 
 const customTake = (arr: number[], value: number) => {
     let shorter = 0;
-    for(let j = 0; j < arr.length; j++){
-        if(arr[j] < value){
+    for (let j = 0; j < arr.length; j++) {
+        if (arr[j] < value) {
             shorter++;
         }
-        if(arr[j] >= value){
+        if (arr[j] >= value) {
             shorter++;
             break;
         }
     }
     return shorter;
-}
-
+};
 
 function advent8(input: string) {
     const lines = input.split('\n');
-    const grid = lines.filter(l => l.trim() !== '').map((line) => line.split('').map((c) => parseInt(c, 10)));
+    const grid = lines.filter((l) => l.trim() !== '').map((line) => line.split('').map((c) => parseInt(c, 10)));
     const width = grid[0].length;
     const height = grid.length;
-    console.log(grid)
+    console.log(grid);
 
     // const visibleAroundEdge = width * 2 + height * 2 - 4;
     // console.log('visibleAroundEdge', visibleAroundEdge);
@@ -50,7 +49,7 @@ function advent8(input: string) {
     const viewingScores = [];
     for (let y = 0; y < height; y++) {
         const printLine = [];
-            for (let x = 0; x < width; x++) {
+        for (let x = 0; x < width; x++) {
             const value = grid[y][x];
             console.log({ x, y, value });
 
@@ -61,8 +60,6 @@ function advent8(input: string) {
                 // console.log('printLine', printLine.join(''));
                 continue;
             }
-
-
 
             // from top
             const fromTop = makeArray(0, y - 1).map((i) => grid[i][x]);
@@ -80,15 +77,14 @@ function advent8(input: string) {
             if (visibleFromTop || visibleFromBottom || visibleFromLeft || visibleFromRight) {
                 visibleInside.push(value);
                 printLine.push(chalk.bgGreen(value));
-            }else{
+            } else {
                 printLine.push(chalk.bgGray(value));
             }
 
-            const toTop = makeArray(y-1,0).map((i) => grid[i][x]);
-            const toBottom = makeArray(y+1,height-1).map((i) => grid[i][x]);
-            const toLeft = makeArray(x-1,0).map((i) => grid[y][i]);
-            const toRight = makeArray(x+1,width-1).map((i) => grid[y][i]);
-
+            const toTop = makeArray(y - 1, 0).map((i) => grid[i][x]);
+            const toBottom = makeArray(y + 1, height - 1).map((i) => grid[i][x]);
+            const toLeft = makeArray(x - 1, 0).map((i) => grid[y][i]);
+            const toRight = makeArray(x + 1, width - 1).map((i) => grid[y][i]);
 
             const topVisibility = customTake(toTop, value);
             const bottomVisibility = customTake(toBottom, value);
@@ -97,7 +93,7 @@ function advent8(input: string) {
 
             const viewingScore = topVisibility * bottomVisibility * leftVisibility * rightVisibility;
             // console.log({x,y,value,toTop, toBottom, toLeft, toRight, topVisibility, bottomVisibility, leftVisibility, rightVisibility, viewingScore});
-                viewingScores.push(viewingScore);
+            viewingScores.push(viewingScore);
         }
         printLines.push(printLine.join(''));
     }
@@ -107,7 +103,7 @@ function advent8(input: string) {
     // console.log('visibleAroundEdge',   visibleAroundEdge);
     console.log('visibleInside', visibleInside);
 
-    console.log("maxViewingScore", Math.max(...viewingScores));
+    console.log('maxViewingScore', Math.max(...viewingScores));
     return visibleInside.length;
 }
 
@@ -123,19 +119,19 @@ console.assert(test1Result === 21);
 
 const tests = [];
 tests.push({
-    input:'111\n111\n111',
+    input: '111\n111\n111',
     expected: 8,
 });
 tests.push({
-    input:'111\n121\n111',
+    input: '111\n121\n111',
     expected: 9,
 });
 tests.push({
-    input:'111\n111\n111\n111',
+    input: '111\n111\n111\n111',
     expected: 10,
 });
 tests.push({
-    input:'111\n111\n111\n111\n111',
+    input: '111\n111\n111\n111\n111',
     expected: 12,
 });
 

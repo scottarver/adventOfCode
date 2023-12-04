@@ -17,7 +17,10 @@ move 1 from 1 to 2`;
 class Stack<T> {
     private items: T[] = [];
 
-    constructor(public name: string, public location: number) {}
+    constructor(
+        public name: string,
+        public location: number,
+    ) {}
 
     push(item: T) {
         console.log(`pushing ${item} to ${this.name}`);

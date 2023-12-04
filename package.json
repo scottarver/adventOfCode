@@ -6,20 +6,21 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "advent9": " ts-node src/advent9.ts",
-    "advent10": " ts-node src/advent10.ts"
+    "advent10": " ts-node src/advent10.ts",
+    "prettier": "prettier --write \"src/**/*.ts\""
   },
   "author": "scottarver@gmail.com",
   "license": "ISC",
   "devDependencies": {
     "@types/lodash": "^4.14.191",
-    "nodemon": "^2.0.20",
-    "prettier": "2.8.0",
+    "nodemon": "^3.0.2",
+    "prettier": "^3.1.0",
     "ts-node": "^10.9.1",
     "tslib": "^2.4.1",
-    "typescript": "^4.9.3"
+    "typescript": "^5.3.2"
   },
   "dependencies": {
-    "chalk": "^4.1.2",
+    "chalk": "^5.3.0",
     "lodash": "^4.17.21"
   }
 }

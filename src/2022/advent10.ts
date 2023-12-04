@@ -2,7 +2,7 @@ import fs from 'fs';
 
 const cycleTime = {
     addx: 2,
-    noop:1,
+    noop: 1,
 };
 
 process.stdout.write('\u001b[3J\u001b[1J');
@@ -33,12 +33,11 @@ function advent10(input: string): number {
 
     const drawn = new Set<number>();
     const draw = () => {
-        if(pixel >= screenWidth){
+        if (pixel >= screenWidth) {
             throw new Error('pixel too big');
         }
         row = Math.floor(cycle / screenWidth);
         if (!drawn.has(cycle)) {
-
             const pixels = [XRegister - 1, XRegister, XRegister + 1];
             let drawnLine = '';
             for (let i = 0; i < screenWidth - 1; i++) {
@@ -48,10 +47,10 @@ function advent10(input: string): number {
                     drawnLine += '.';
                 }
             }
-            console.log({cycle,row,pixel, XRegister, instructionPointer, pixels });
+            console.log({ cycle, row, pixel, XRegister, instructionPointer, pixels });
             console.log(drawnLine);
-            console.log("-----------");
-            if(!screen[row]) {
+            console.log('-----------');
+            if (!screen[row]) {
                 screen[row] = [];
             }
 
@@ -63,34 +62,34 @@ function advent10(input: string): number {
             drawn.add(cycle);
 
             pixel++;
-            if(pixel >= screenWidth){
+            if (pixel >= screenWidth) {
                 pixel = 0;
             }
 
-            console.log(screen.map((row) => row.join('')).join("\n"));
-            console.log("\n");
+            console.log(screen.map((row) => row.join('')).join('\n'));
+            console.log('\n');
         }
     };
     while (instructionPointer < lines.length) {
         const line = lines[instructionPointer];
         // console.log(line);
         const [instruction, value] = line.split(' ');
-        const numValue = parseInt(value , 10);
+        const numValue = parseInt(value, 10);
         const cycles = cycleTime[instruction] || -1;
         for (let i = 0; i < cycles; i++) {
             cycle++;
-            console.log({cycle});
+            console.log({ cycle });
             checkPeek();
             draw();
         }
-        if(instruction === 'addx') {
+        if (instruction === 'addx') {
             console.log(line);
             XRegister += numValue;
             // console.log({XRegister, numValue});
         }
         instructionPointer++;
     }
-    console.log(screen.map((row) => row.join('')).join("\n"));
+    console.log(screen.map((row) => row.join('')).join('\n'));
     return sum;
 }
 

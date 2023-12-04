@@ -15,7 +15,7 @@ process.stdout.write('\u001b[3J\u001b[1J');
 console.clear();
 console.log('\n\n\n\n\n\n\n');
 
-function drawGrid(grid: string[][], rope:NumTuple[]) {
+function drawGrid(grid: string[][], rope: NumTuple[]) {
     console.log('drawing grid');
     console.log(rope);
     return grid
@@ -23,11 +23,13 @@ function drawGrid(grid: string[][], rope:NumTuple[]) {
         .reverse()
         .map(({ values, yPos }) => {
             const clonedRow = [...values];
-            return clonedRow.map((z,xPos) =>{
-                const isRope = rope.findIndex(([x,y]) => x === xPos && y === yPos);
-                // console.log({xPos, yPos, isRope})
-                return isRope !== -1 ? `${isRope}` : z;
-            }).join('');
+            return clonedRow
+                .map((z, xPos) => {
+                    const isRope = rope.findIndex(([x, y]) => x === xPos && y === yPos);
+                    // console.log({xPos, yPos, isRope})
+                    return isRope !== -1 ? `${isRope}` : z;
+                })
+                .join('');
         })
         .join('\n');
 }
@@ -97,13 +99,13 @@ function advent9a(input: string): number {
 
     const rope = [];
     const ropeLength = 10;
-    for(let i = 0; i < ropeLength; i++) {
-        rope.push([0,0]);
+    for (let i = 0; i < ropeLength; i++) {
+        rope.push([0, 0]);
     }
 
     const smallRopes = [];
-    for(let i = 1; i < ropeLength; i++) {
-        smallRopes.push([rope[i-1], rope[i]]);
+    for (let i = 1; i < ropeLength; i++) {
+        smallRopes.push([rope[i - 1], rope[i]]);
     }
 
     debugger;
@@ -134,60 +136,58 @@ function advent9a(input: string): number {
             // console.log(drawGrid(grid, hPos, tPos));
             // console.log('\n');
 
-            smallRopes.forEach(([hPos,tPos]) => {
+            smallRopes.forEach(([hPos, tPos]) => {
+                const vDist = Math.abs(hPos[1] - tPos[1]);
+                const hDist = Math.abs(hPos[0] - tPos[0]);
 
-            const vDist = Math.abs(hPos[1] - tPos[1]);
-            const hDist = Math.abs(hPos[0] - tPos[0]);
-
-            // console.log({ vDist, hDist });
-            // move T close to H
-            if (hPos[0] === tPos[0] && hPos[1] === tPos[1]) {
-                console.log('same, no move');
-            } else if (hPos[0] === tPos[0] && hPos[1] !== tPos[1]) {
-                // move vertically
-                if(vDist > 1) {
-                    if (hPos[1] > tPos[1]) {
-                        tPos[1]++;
-                    } else {
-                        tPos[1]--;
+                // console.log({ vDist, hDist });
+                // move T close to H
+                if (hPos[0] === tPos[0] && hPos[1] === tPos[1]) {
+                    console.log('same, no move');
+                } else if (hPos[0] === tPos[0] && hPos[1] !== tPos[1]) {
+                    // move vertically
+                    if (vDist > 1) {
+                        if (hPos[1] > tPos[1]) {
+                            tPos[1]++;
+                        } else {
+                            tPos[1]--;
+                        }
                     }
-                }
-            } else if (hPos[0] !== tPos[0] && hPos[1] === tPos[1]) {
-                // move horizontally
-                if(hDist > 1) {
+                } else if (hPos[0] !== tPos[0] && hPos[1] === tPos[1]) {
+                    // move horizontally
+                    if (hDist > 1) {
+                        if (hPos[0] > tPos[0]) {
+                            tPos[0]++;
+                        } else {
+                            tPos[0]--;
+                        }
+                    }
+                } else if (hPos[0] !== tPos[0] && hPos[1] !== tPos[1] && (vDist > 1 || hDist > 1)) {
+                    // move diagonally
                     if (hPos[0] > tPos[0]) {
-                        tPos[0]++;
+                        if (hPos[1] > tPos[1]) {
+                            tPos[0]++;
+                            tPos[1]++;
+                        } else {
+                            tPos[0]++;
+                            tPos[1]--;
+                        }
                     } else {
-                        tPos[0]--;
+                        if (hPos[1] > tPos[1]) {
+                            tPos[0]--;
+                            tPos[1]++;
+                        } else {
+                            tPos[0]--;
+                            tPos[1]--;
+                        }
                     }
                 }
-            }else if (hPos[0] !== tPos[0] && hPos[1] !== tPos[1] && (vDist > 1 || hDist > 1)) {
-                // move diagonally
-                if(hPos[0] > tPos[0]){
-                    if(hPos[1] > tPos[1]){
-                        tPos[0]++;
-                        tPos[1]++;
-                    }else{
-                        tPos[0]++;
-                        tPos[1]--;
-                    }
-                }else {
-                    if(hPos[1] > tPos[1]){
-                        tPos[0]--;
-                        tPos[1]++;
-                    }else{
-                        tPos[0]--;
-                        tPos[1]--;
-                    }
-                }
-            }
 
-            // console.log('after');
-            // console.log(drawGrid(grid, hPos, tPos));
-            // console.log('\n');
-
+                // console.log('after');
+                // console.log(drawGrid(grid, hPos, tPos));
+                // console.log('\n');
             });
-            const tail  = rope[rope.length - 1];
+            const tail = rope[rope.length - 1];
             tailVisits.add(`${tail[0]},${tail[1]}`);
         }
         // console.log(drawGrid(grid, rope));
@@ -206,7 +206,6 @@ function advent9a(input: string): number {
 // console.log(advent9a(testInput));
 // console.assert(advent9a(testInput) === 13);
 
-
 const testInput2 = `R 5
 U 8
 L 8
@@ -216,13 +215,8 @@ D 10
 L 25
 U 20`;
 
-
 // console.log(advent9a(testInput2));
 // console.log(advent9a(['U 20','R 5','D 1'].join("\n")));
-
-
-
-
 
 const input1 = fs.readFileSync(__dirname + '/day9Input.txt', 'utf8');
 const answer1 = advent9a(input1);

@@ -3,7 +3,7 @@ import { orderBy } from 'lodash';
 
 process.stdout.write('\u001b[3J\u001b[1J');
 console.clear();
-performance.mark('start')
+performance.mark('start');
 
 const totalDiskSpace = 70000000;
 const spaceNeeded = 30000000;
@@ -17,7 +17,10 @@ class Directory {
     public childDirs = new Map<string, Directory>();
     public childFiles = new Map<string, File>();
 
-    constructor(public name: string, public parent?: Directory) {}
+    constructor(
+        public name: string,
+        public parent?: Directory,
+    ) {}
 
     public get path(): string {
         if (!this.parent) {
