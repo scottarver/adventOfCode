@@ -1,4 +1,5 @@
-import { day5Input } from "./day5Input";
+import { groupBy } from 'lodash';
+import { day5Input } from './day5Input';
 
 const testInput = `seeds: 79 14 55 13
 
@@ -37,15 +38,26 @@ humidity-to-location map:
 console.log('\x1Bc');
 console.log('\n\n\n\n\n\n\nnew run \n\n\n\n\n');
 
+const into2s = (n: number[]): [number, number][] => {
+    const result = [];
+    for (let i = 0; i < n.length; i += 2) {
+        result.push([n[i], n[i + 1]]);
+    }
+    return result;
+};
+
 const run1 = (input: string) => {
     console.log('hi');
     const [seedLine, ...roughMaps] = input.split('\n\n');
-    console.log('🚀 ~ file: day5.ts:42 ~ run1 ~ seedLine:', seedLine);
+    // console.log('🚀 ~ file: day5.ts:42 ~ run1 ~ seedLine:', seedLine);
     const seeds = seedLine
         .split(':')[1]
         .trim()
         .split(' ')
         .map((x) => parseInt(x, 10));
+
+    const seedRanges = into2s(seeds);
+
     console.log('🚀 ~ file: day5.ts:43 ~ run1 ~ seeds:', seeds);
     // console.log('🚀 ~ file: day5.ts:42 ~ run1 ~ roughMaps:', roughMaps);
     // console.log('🚀 ~ file: day5.ts:42 ~ run1 ~ seedLine:', seedLine);
@@ -69,46 +81,57 @@ const run1 = (input: string) => {
             });
         });
     });
-    console.log('🚀 ~ file: day5.ts:55 ~ roughMaps.forEach ~ maps:', maps);
+    // console.log('🚀 ~ file: day5.ts:55 ~ roughMaps.forEach ~ maps:', maps);
+    const mapsBySource = groupBy(maps, x => x.source);
 
-    const finalLocations = [];
-    seeds.forEach((seed) => {
-        let tracer = seed;
-
-        let currentCat: string | null = 'seed';
-        let lastCat = currentCat;
-        while (currentCat) {
-            console.log('🚀 ~ file: day5.ts:77 ~ seeds.forEach ~ currentCat:', currentCat);
-            console.log('🚀 ~ file: day5.ts:73 ~ seeds.forEach ~ tracer:', tracer);
-            const foundMaps = maps.filter((map) => map.source === currentCat);
-            if (foundMaps.length === 0) {
-                currentCat = null;
-                break;
+    let finalLocation:number|undefined = undefined;
+    seedRanges.forEach((seedRange, seedNum) => {
+        let seed = seedRange[0];
+        console.log('🚀 ~ file: day5.ts:88 ~ seedRanges.forEach ~ seed:', seed);
+        for (let i = 0; i < seedRange[1]; i++) {
+            let tracer = seed + i;
+            if (tracer % 1000000 === 0) {
+                // log the progress in percentages
+                console.log((i / seedRange[1]) * 100, `% done with seed ${seedNum} out of ${seedRanges.length}`);
             }
 
-            const dest = foundMaps[0].target;
-            console.log('🚀 ~ file: day5.ts:80 ~ seeds.forEach ~ dest:', dest);
-            console.log('🚀 ~ file: day5.ts:79 ~ seeds.forEach ~ foundMaps:', foundMaps);
-            currentCat = dest;
-            lastCat = currentCat;
-            const correctPlace = foundMaps.find((map) => map.sourceStart <= tracer && tracer <= map.sourceEnd);
-            console.log('🚀 ~ file: day5.ts:92 ~ seeds.forEach ~ correctPlace:', correctPlace);
-            if (correctPlace) {
-                tracer = correctPlace.destinationStart + (tracer - correctPlace.sourceStart);
+            let currentCat: string | null = 'seed';
+            let lastCat = currentCat;
+            while (currentCat) {
+                // console.log('🚀 ~ file: day5.ts:77 ~ seeds.forEach ~ currentCat:', currentCat);
+                // console.log('🚀 ~ file: day5.ts:73 ~ seeds.forEach ~ tracer:', tracer);
+                const foundMaps = mapsBySource[currentCat] ?? [];
+                if (foundMaps.length === 0) {
+                    currentCat = null;
+                    break;
+                }
+
+                const dest = foundMaps[0].target;
+                // console.log('🚀 ~ file: day5.ts:80 ~ seeds.forEach ~ dest:', dest);
+                // console.log('🚀 ~ file: day5.ts:79 ~ seeds.forEach ~ foundMaps:', foundMaps);
+                currentCat = dest;
+                lastCat = currentCat;
+                const correctPlace = foundMaps.find((map) => map.sourceStart <= tracer && tracer <= map.sourceEnd);
+                // console.log('🚀 ~ file: day5.ts:92 ~ seeds.forEach ~ correctPlace:', correctPlace);
+                if (correctPlace) {
+                    tracer = correctPlace.destinationStart + (tracer - correctPlace.sourceStart);
+                }
+            }
+            // console.log('last lastCat', lastCat);
+            if (finalLocation !== undefined) {
+                if (tracer < finalLocation) {
+                    finalLocation = tracer;
+                }
+            } else {
+                finalLocation = tracer;
             }
         }
-        console.log('last lastCat', lastCat);
-        finalLocations.push(tracer);
     });
-    return finalLocations;
+    return finalLocation;
 };
 
 const results = run1(testInput);
 console.log('🚀 ~ file: day5.ts:105 ~ results:', results);
-const minResult = Math.min(...results);
-console.log('🚀 ~ file: day5.ts:107 ~ minResult:', minResult);
 
 const results2 = run1(day5Input);
 console.log('🚀 ~ file: day5.ts:105 ~ results2:', results2);
-const minResult2 = Math.min(...results2);
-console.log('🚀 ~ file: day5.ts:107 ~ minResult2:', minResult2);
