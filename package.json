@@ -21,6 +21,7 @@
     "typescript": "^5.3.2"
   },
   "dependencies": {
+    "biome": "^0.3.3",
     "chalk": "^5.3.0",
     "lodash": "^4.17.21"
   }
